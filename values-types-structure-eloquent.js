@@ -1,4 +1,5 @@
-/* Chapter 1: Values, Types, Operators
+/*
+Chapter 1: Values, Types, Operators
 "Keeping programs under control is the main problem of programming." (managing complexity)
 Notes: 
 -Maybe I can be using the while loop more effectively
