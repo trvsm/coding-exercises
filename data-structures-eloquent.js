@@ -95,24 +95,24 @@ const reverseArrayInPlace = (array) => {
 };
 
 // A List: write a function arrayToList that builds up a list structure
-const arrayToList =(array)=>{
-    let list = {};
-    let rest = null;
-    list ={ value: array[0],
-    rest:{
-        value: array[1],
-        rest: {
-            value: array[2],
-            rest: rest
-        }
-    }}
-}
-// start at end? spread object into object?
-const arrayToList2 = (array)=>{
-    let list = {}
-array.forEach(element => {
-    
-});
-return console.log(list)
-}
-arrayToList2([1, 2, 3]);
+const arrayToList = (array) => {
+  let list = {};
+  for (let i = array.length - 1; i >= 0; i--) {
+    list = { value: array[i], rest: list };
+    // this works wile list.value = array[i] & list.rest = list is circular
+  }
+  return list;
+};
+let someObj = arrayToList([1, 2, 3]);
+// write a function listToArray that produces an array from a list
+const listToArray = (list) => {
+  let array = [];
+  // loop through list.  Node is current element. Stay in loop while node is truthy; while rest is not null, set node to node.rest
+  for (let node = list; node; node = node.rest) {
+    if (node.value) {
+      array.push(node.value);
+    }
+  }
+  return console.log(array);
+};
+
