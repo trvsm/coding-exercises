@@ -145,4 +145,17 @@ const nthRecursive =(list, itemIndex)=>{
   }
 }
 // this does return the right value, but continues executing...
-console.log(nthRecursive(arrayToList([11,22,33]), 2));
+
+// Deep Comparison: == compares objects by identity, sometimes it is preferable to compare values of properties
+// Write deepEqual that takes two values and returns true only if they are same value or objects with same properties, where values of properties are equal
+
+const deepEqual = (firstItem, secondItem)=>{
+  let areEquivalent = false;
+if((typeof firstItem === 'object')&&(typeof secondItem === 'object')&&(firstItem != null)&&(secondItem != null)){
+  // they're both objects; compare properties
+}
+else{
+  // primitives, compare directly
+}
+  return areEquivalent
+}
