@@ -103,7 +103,7 @@ const arrayToList = (array) => {
   }
   return list;
 };
-let someObj = arrayToList([1, 2, 3]);
+
 // write a function listToArray that produces an array from a list
 const listToArray = (list) => {
   let array = [];
@@ -116,3 +116,33 @@ const listToArray = (list) => {
   return console.log(array);
 };
 
+// Write a helper function prepend which takes an element and list and creates new list that adds the element
+const prepend = (list, element) =>{
+  let newList = {};
+  newList.value = element;
+  newList.rest = list;
+  return newList;
+}
+
+// Write a helper function nth, which takes  list and number and returns the element at given position, 0 indexed
+const nth = (list, itemIndex)=>{
+let count = 0
+let target
+  for(let node = list; node; node = node.rest){
+if(count === itemIndex){target = node; return target}
+else{count++};
+  }
+  return undefined
+}
+
+// Write a recursive nth
+const nthRecursive =(list, itemIndex)=>{
+  for(let node = list;  itemIndex>= 0; node = list.rest){
+    if(itemIndex>0){nthRecursive(node.rest, itemIndex-1)}
+
+    if(itemIndex===0){return console.log(node)}
+    else return undefined
+  }
+}
+// this does return the right value, but continues executing...
+console.log(nthRecursive(arrayToList([11,22,33]), 2));
