@@ -150,12 +150,27 @@ const nthRecursive =(list, itemIndex)=>{
 // Write deepEqual that takes two values and returns true only if they are same value or objects with same properties, where values of properties are equal
 
 const deepEqual = (firstItem, secondItem)=>{
-  let areEquivalent = false;
+  // assumptions: items are not of type symbol
 if((typeof firstItem === 'object')&&(typeof secondItem === 'object')&&(firstItem != null)&&(secondItem != null)){
   // they're both objects; compare properties
+  // Object.keys(item) returns array of keys as string. can follow with item['key'] for each key
+  // check a property, setup so a recursive call will look inside property. recursive call can look at primitives
+let firstKeys = Object.keys(firstItem)
+for (let i = 0; i < firstKeys.length; i++) {
+  if(firstKeys[i]=== Object.keys(secondItem)[i]){
+    let currentProperty = firstKeys[i]
+    if(!deepEqual(firstItem[currentProperty], secondItem[currentProperty])){return false}
+  }
+  
 }
-else{
+  }
+if((typeof firstItem != 'object') && (typeof secondItem != 'object')){
   // primitives, compare directly
+  if(firstItem === secondItem){return true}
+  else return false
 }
-  return areEquivalent
+  return true
 }
+// This gets most of the way there; as exercise hints specify to fully check look at length & contents of each Object.keys
+
+console.log(deepEqual({1:false},{1:false}));
