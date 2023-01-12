@@ -69,3 +69,32 @@ function characterScript(code) {
     }
     return null;
   }
+
+//   pitfalls of two character UTF-16
+  // Two emoji characters, horse and shoe
+let horseShoe = "🐴👟";
+console.log(horseShoe.length);
+// → 4
+console.log(horseShoe[0]);
+// → (Invalid half-character)
+console.log(horseShoe.charCodeAt(0));
+// → 55357 (Code of the half-character)
+console.log(horseShoe.codePointAt(0));
+// → 128052 (Actual code for horse emoji)
+
+// for/of loop also solves this:
+for(let char of horseShoe){
+    console.log(char);
+}
+
+// findIndex & indexOf return -1 when an element not found
+
+/* Exercises */
+//Flattening: use reduce & concat to flatten array of arrays to a single array with all elements
+// input: array with some elements as arrays
+// output: array, with all elements
+
+const arrayFromConcat =(array)=>{let newArr = [];
+    for(let item of array){console.log(newArr.concat(item))};
+}
+arrayFromConcat([1,3,4]);
