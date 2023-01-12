@@ -57,3 +57,15 @@ function average(array){
 c.log(Math.round(average(SCRIPTS.filter(script=>script.living).map(script=>script.year))))
 // filter returns an array of objects that match a criteria, map converts to a flat number array that average can work on
 */
+
+// find which script a character code comes from, if any
+function characterScript(code) {
+    for (let script of SCRIPTS) { //for all script properties of SCRIPTS object (array in this case)
+      if (script.ranges.some(([from, to]) => { //ranges is a property on each srcipt. some returns a boolean
+        return code >= from && code < to; //some returns true if target code is >= from & smaller than to (if true that target code is in range)
+      })) {
+        return script;
+      }
+    }
+    return null;
+  }
