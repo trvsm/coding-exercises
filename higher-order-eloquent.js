@@ -94,7 +94,20 @@ for(let char of horseShoe){
 // input: array with some elements as arrays
 // output: array, with all elements
 
-const arrayFromConcat =(array)=>{let newArr = [];
-    for(let item of array){console.log(newArr.concat(item))};
+//come back to this.  I think the intent is similar to linked list; set up a loop checking each element, within each element build up the array
+
+//Your Own Loop: write a function <loop> that provides something like a for loop:
+// take value, test, update, and body.  Each iteration runs test on value, stops if false.  calls body, finally calls update, then restarts
+
+const myLoop = (value, testFn, bodyFn, updateFn) =>{
+   while(testFn(value)){
+
+       //one iteration:
+       if(testFn(value)===false){return}
+       else{
+           bodyFn(value);
+           updateFn(value);
+        }
+        
+    }
 }
-arrayFromConcat([1,3,4]);
