@@ -100,14 +100,12 @@ for(let char of horseShoe){
 // take value, test, update, and body.  Each iteration runs test on value, stops if false.  calls body, finally calls update, then restarts
 
 const myLoop = (value, testFn, bodyFn, updateFn) =>{
-   while(testFn(value)){
-
-       //one iteration:
-       if(testFn(value)===false){return}
-       else{
-           bodyFn(value);
-           updateFn(value);
-        }
+    let current = value;
+   while(testFn(current)){
+           bodyFn(current);
+        current = updateFn(current);
         
     }
 }
+
+myLoop(3, n=>n>0, console.log, n=> n-1);
