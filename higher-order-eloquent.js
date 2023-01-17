@@ -108,4 +108,21 @@ const myLoop = (value, testFn, bodyFn, updateFn) =>{
     }
 }
 
-myLoop(3, n=>n>0, console.log, n=> n-1);
+//Everything: arrays have an 'every' method analogous to 'some' method.
+//Implement every as a function that takes an array and a test as parameters.  Write two, one using a loop, one using some.
+
+const everyLoop = (array, test)=> {
+    //recall: <for...in> for string props of objects
+    let result = true;
+    for(let element of array){
+        if (!test(element)){result = false; return result;}
+    }
+    return result}
+
+const everySome = (array, test) =>{
+    let result = true;
+//could create single item arrays and test via some
+//some returns true when it finds one truthy. could go recursive: call some, if true take off first element, call some on remaining
+if()
+
+}
