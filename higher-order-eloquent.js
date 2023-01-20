@@ -123,6 +123,23 @@ const everySome = (array, test) =>{
     let result = true;
 //could create single item arrays and test via some
 //some returns true when it finds one truthy. could go recursive: call some, if true take off first element, call some on remaining
-if()
 
 }
+
+// Dominant Writing Direction: Write a function that computes dominant writing direction in string of text
+//consider characterScript & countBy from earlier in the chapter
+
+const dominantDirection=(textStr)=>{
+
+}
+
+function characterScript(code) {
+    for (let script of SCRIPTS) {
+      if (script.ranges.some(([from, to]) => {
+        return code >= from && code < to;
+      })) {
+        return script;
+      }
+    }
+    return null;
+  }
