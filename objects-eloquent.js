@@ -26,4 +26,15 @@ When properties are added to an object, an instance, they will mask prototypal p
 
 Maps Data structure: associates values (object keys) with other values.
 Be careful: since regular objects derive from Object.prototype all prototype properties "appear" in objects, eg 'toString' in myObj === true
+To avoid: 
+1) Object with no prototype: Object.create(null) this has limitations if you want objects as keys, eg linked list
+2) Built in Map class: let ages = new Map(); Map.set: add (key, value) pair, Map.get(key): return associated value, Map.(has): return boolean, true if key exists in Map
+
+3) Object.keys ignores prototypal keys, Object.hasOwnProperty() ignores prototypal property.
+
+Polymorphism: writing a method to match a certain interface; then when any object matching the interface is passed as arg, it will work.
+
+Symbols: It is possible for multiple interfaces to use the same property name.  Text has covered .toString methods with different functionality.
+Property names are usually strings but can also be symbols; each new Symbol is unique
+
  */
