@@ -37,4 +37,111 @@ Polymorphism: writing a method to match a certain interface; then when any objec
 Symbols: It is possible for multiple interfaces to use the same property name.  Text has covered .toString methods with different functionality.
 Property names are usually strings but can also be symbols; each new Symbol is unique
 
+It is possible to include symbol properties in classes & object expressions:
+let stringObject = { [toStringSymbol](){return "a piece of twine";}}
+above the property have is evaluated, like square bracket property access. A bingin that holds the symbol
+
+Iterator interface: Symbol.iterator: returns an object with interface *iterator*
+*iterator*: has .next method that returns next result > result has value prop(to feed to next <next>) and done prop (boolean that's true when next result returns no value)
+
+Getters & Setters: discrete properties like size may hide a method call; see Temperature class below
+Temperature allows to read & write in Celsius or Farenheit, internally stores Celsius & converts
+
+Static: sometimes properties in constructor rather than prototype; provide ways to create instances
+eg temperature allows Temperature.fromFarenheit() to create a temp using degrees Farenheit.
+
+Inheritance: <child class> extends class{} this supports making a new class like old class but new defs on some properties.
+
  */
+
+// Implementing an iterable data structure:
+class Matrix {
+    constructor(width, height, element =(x, y)=>undefined){
+        this.width = width;
+        this.height = height;
+        this.content = [];
+
+        for(let y =0; y <height; y++){
+            for(let x= 0; x < width; x++){
+                this.content[y*width+x]= element(x, y)
+            }
+        }
+    }
+    get(x, y){
+        return this.content[y* this.width+x];
+    }
+    set(x, y, value){
+        this.content[y* this.width + x] = value;
+    }
+}
+
+// Stores content in a single array of width*height elements
+// Constructor takes width, height and optional element function to fill initial values
+// .get & .set methods retrieve & update elements in the matrix
+
+// Looping over matrix usually position & elements matter.
+// design iterator with x, y, and value properties
+
+class MatrixIterator {
+    constructor(matrix){
+        this.x = 0;
+        this.y = 0;
+        this.matrix = matrix;
+    }
+
+    next(){
+        if(this.y === this.matrix.height) return {done: true};
+// if the bottom of the matrix has not been reached then create obj with val, then update position
+        let value = {x: this.x,
+        y: this.y,
+    value: this.matrix.get(this.x, this.y)};
+    this.x++;
+    if(this.x === this.matrix.width){
+        this.x = 0;
+        this.y++;
+    }
+    return {value, done: false}
+    }
+}
+
+Matrix.prototype[Symbol.iterator] = function() {
+    return new MatrixIterator(this);
+}
+// can now loop over a matrix with for/of:
+let matrix = new Matrix(2,2, (x,y)=>`value ${x},${y}`);
+for(let{x,y,value} of matrix){
+    console.log(x,y, value);
+}
+
+//Inheritance:
+class SymmetricMatrix extends Matrix {
+    constructor(size, element = (x, y)=> undefined){
+        super(size, size, (x,y)=>{
+            if(x<y)return element(y, x);
+            else return element(x,y);
+        });
+            }
+            set(x,y, value){
+                super.set(x,y, value);
+                if(x != y){
+                    super.set(y,x,value);
+                }
+            }
+}
+
+// Getters & Setters
+class Temperature{
+    constructor(celsius){
+        this.celsius = celsius
+    }
+    get farenheit(){
+        return this.celsius * 1.8 + 32;
+    }
+    set farenheit(value){
+        this.celsius = value(value-32)/1.8;
+    }
+
+    static fromFarenheit(value){
+        return new Temperature((value - 32)/1.8);
+    }
+}
