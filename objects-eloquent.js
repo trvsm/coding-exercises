@@ -50,7 +50,13 @@ Temperature allows to read & write in Celsius or Farenheit, internally stores Ce
 Static: sometimes properties in constructor rather than prototype; provide ways to create instances
 eg temperature allows Temperature.fromFarenheit() to create a temp using degrees Farenheit.
 
-Inheritance: <child class> extends class{} this supports making a new class like old class but new defs on some properties.
+Inheritance: <subclass> extends superclass{} this supports making a new class like old class but new defs on some properties.
+constructor calls superclass's constructor via super keyword
+super.set calls the method from super, rather than constructor.
+this.set would refer to subclass method.
+**inheritance is more controversial in OOP; encapsulation & polymorphism help separate code, inheritance tangles it. **
+
+instanceof operator: looks through inherited types eg Array is an instance of Array and Object.  Can also check defined classes
 
  */
 
@@ -145,3 +151,33 @@ class Temperature{
         return new Temperature((value - 32)/1.8);
     }
 }
+
+/* Exercises */
+
+//Vector type: write a class Vec that represents a vector in 2D space.  Takes numbers x & y as params, should have props by same name.
+
+//Give Vec two methods: plus & minus that take another vector as param, return new vector that has sum of diff of two vectors x & y(eg <this.x> & param.x)
+
+//add a getter prop, <length>, that computes length of vector (point (x,y) from (0,0)) (absolute for x, y, x^2 + y^2 = length^2)
+
+class Vec {
+    constructor(x, y){
+        this.x = x;
+        this.y = y;
+    }
+    plus(vector){
+        //sum vectors: this.x + vector.x
+       return new Vec((this.x+vector.x), (this.y+vector.y))
+    }
+    minus(vector){
+      return  new Vec((this.x-vector.x),(this.y-vector.y))
+        //diff of vectors: this.x - vector.x
+    }
+    get length(){
+        let hor = Math.abs(this.x);
+        let ver = Math.abs(this.y);
+        return (Math.sqrt(hor*hor+ ver*ver));
+    }
+}
+
+console.log(new Vec(1,2).plus(new Vec(2,3)));
