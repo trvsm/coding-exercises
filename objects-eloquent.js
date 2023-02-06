@@ -62,23 +62,23 @@ instanceof operator: looks through inherited types eg Array is an instance of Ar
 
 // Implementing an iterable data structure:
 class Matrix {
-    constructor(width, height, element =(x, y)=>undefined){
-        this.width = width;
-        this.height = height;
-        this.content = [];
+  constructor(width, height, element = (x, y) => undefined) {
+    this.width = width;
+    this.height = height;
+    this.content = [];
 
-        for(let y =0; y <height; y++){
-            for(let x= 0; x < width; x++){
-                this.content[y*width+x]= element(x, y)
-            }
-        }
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        this.content[y * width + x] = element(x, y);
+      }
     }
-    get(x, y){
-        return this.content[y* this.width+x];
-    }
-    set(x, y, value){
-        this.content[y* this.width + x] = value;
-    }
+  }
+  get(x, y) {
+    return this.content[y * this.width + x];
+  }
+  set(x, y, value) {
+    this.content[y * this.width + x] = value;
+  }
 }
 
 // Stores content in a single array of width*height elements
@@ -89,67 +89,69 @@ class Matrix {
 // design iterator with x, y, and value properties
 
 class MatrixIterator {
-    constructor(matrix){
-        this.x = 0;
-        this.y = 0;
-        this.matrix = matrix;
-    }
+  constructor(matrix) {
+    this.x = 0;
+    this.y = 0;
+    this.matrix = matrix;
+  }
 
-    next(){
-        if(this.y === this.matrix.height) return {done: true};
-// if the bottom of the matrix has not been reached then create obj with val, then update position
-        let value = {x: this.x,
-        y: this.y,
-    value: this.matrix.get(this.x, this.y)};
+  next() {
+    if (this.y === this.matrix.height) return { done: true };
+    // if the bottom of the matrix has not been reached then create obj with val, then update position
+    let value = {
+      x: this.x,
+      y: this.y,
+      value: this.matrix.get(this.x, this.y),
+    };
     this.x++;
-    if(this.x === this.matrix.width){
-        this.x = 0;
-        this.y++;
+    if (this.x === this.matrix.width) {
+      this.x = 0;
+      this.y++;
     }
-    return {value, done: false}
-    }
+    return { value, done: false };
+  }
 }
 
-Matrix.prototype[Symbol.iterator] = function() {
-    return new MatrixIterator(this);
-}
+Matrix.prototype[Symbol.iterator] = function () {
+  return new MatrixIterator(this);
+};
 // can now loop over a matrix with for/of:
-let matrix = new Matrix(2,2, (x,y)=>`value ${x},${y}`);
-for(let{x,y,value} of matrix){
-    console.log(x,y, value);
+let matrix = new Matrix(2, 2, (x, y) => `value ${x},${y}`);
+for (let { x, y, value } of matrix) {
+  console.log(x, y, value);
 }
 
 //Inheritance:
 class SymmetricMatrix extends Matrix {
-    constructor(size, element = (x, y)=> undefined){
-        super(size, size, (x,y)=>{
-            if(x<y)return element(y, x);
-            else return element(x,y);
-        });
-            }
-            set(x,y, value){
-                super.set(x,y, value);
-                if(x != y){
-                    super.set(y,x,value);
-                }
-            }
+  constructor(size, element = (x, y) => undefined) {
+    super(size, size, (x, y) => {
+      if (x < y) return element(y, x);
+      else return element(x, y);
+    });
+  }
+  set(x, y, value) {
+    super.set(x, y, value);
+    if (x != y) {
+      super.set(y, x, value);
+    }
+  }
 }
 
 // Getters & Setters
-class Temperature{
-    constructor(celsius){
-        this.celsius = celsius
-    }
-    get farenheit(){
-        return this.celsius * 1.8 + 32;
-    }
-    set farenheit(value){
-        this.celsius = value(value-32)/1.8;
-    }
+class Temperature {
+  constructor(celsius) {
+    this.celsius = celsius;
+  }
+  get farenheit() {
+    return this.celsius * 1.8 + 32;
+  }
+  set farenheit(value) {
+    this.celsius = value(value - 32) / 1.8;
+  }
 
-    static fromFarenheit(value){
-        return new Temperature((value - 32)/1.8);
-    }
+  static fromFarenheit(value) {
+    return new Temperature((value - 32) / 1.8);
+  }
 }
 
 /* Exercises */
@@ -161,23 +163,23 @@ class Temperature{
 //add a getter prop, <length>, that computes length of vector (point (x,y) from (0,0)) (absolute for x, y, x^2 + y^2 = length^2)
 
 class Vec {
-    constructor(x, y){
-        this.x = x;
-        this.y = y;
-    }
-    plus(vector){
-        //sum vectors: this.x + vector.x
-       return new Vec((this.x+vector.x), (this.y+vector.y))
-    }
-    minus(vector){
-      return  new Vec((this.x-vector.x),(this.y-vector.y))
-        //diff of vectors: this.x - vector.x
-    }
-    get length(){
-        let hor = Math.abs(this.x);
-        let ver = Math.abs(this.y);
-        return (Math.sqrt(hor*hor+ ver*ver));
-    }
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+  plus(vector) {
+    //sum vectors: this.x + vector.x
+    return new Vec(this.x + vector.x, this.y + vector.y);
+  }
+  minus(vector) {
+    return new Vec(this.x - vector.x, this.y - vector.y);
+    //diff of vectors: this.x - vector.x
+  }
+  get length() {
+    let hor = Math.abs(this.x);
+    let ver = Math.abs(this.y);
+    return Math.sqrt(hor * hor + ver * ver);
+  }
 }
 
 //Groups:  JS environment hs <Set> data structure; holds collection of vals.
@@ -190,55 +192,61 @@ class Vec {
 //Iterable Groups: Make the Group class iterable.  Since array representing the group don't just return iterater from Symbol.iterator
 
 class Group {
-    constructor(){
-this.instance = []
-    }
+  constructor() {
+    this.instance = [];
+  }
 
-    add(value){
-        if(this.instance.indexOf(value)< 0){this.instance.push(value)}
-//add the value to the set if not in set
+  add(value) {
+    if (this.instance.indexOf(value) < 0) {
+      this.instance.push(value);
     }
-delete(value){
-    if(this.instance.indexOf(value)>= 0){
-        let target = this.instance.indexOf(value);
-    let before = this.instance.slice(0,target);
-    let after = this.instance.slice(target+1);
-    this.instance = [...before, ...after];
-    //filter would be more concise here
-    return this.instance;
+    //add the value to the set if not in set
+  }
+  delete(value) {
+    if (this.instance.indexOf(value) >= 0) {
+      let target = this.instance.indexOf(value);
+      let before = this.instance.slice(0, target);
+      let after = this.instance.slice(target + 1);
+      this.instance = [...before, ...after];
+      //filter would be more concise here
+      return this.instance;
     }
     //remove the value if it was in set
-}
-has(value){
-    if(this.instance.includes(value)){return true}
-    else return false;
+  }
+  has(value) {
+    if (this.instance.includes(value)) {
+      return true;
+    } else return false;
     //return boolean; true if in set
-}
+  }
 
-static from(object){
+  static from(object) {
     // create a new group, iterate through object calling add each iteration
-    let aGroup = new Group;
-    for(const prop in object){
-        aGroup.add(object[prop]);
+    let aGroup = new Group();
+    for (const prop in object) {
+      aGroup.add(object[prop]);
     }
     return aGroup;
-}
+  }
 }
 
 class GroupIterator {
-    constructor(group){
-        this.item = 0
-this.group = group
-    }
-    next(){
-
-        if(this.item == (this.group.instance.length()-1))return {done: true}
-        let value = {value: this.group.instance[this.item]}
-        this.item++;
-        return{value, done: false};
-    }
+  constructor(group) {
+    this.item = 0;
+    this.group = group;
+  }
+  next() {
+    if (this.item == this.group.instance.length) return { done: true };
+    let value = { value: this.group.instance[this.item] };
+    this.item++;
+    return { value, done: false };
+  }
 }
 
-Group.prototype[Symbol.iterator] = function(){
-    return new GroupIterator(this);
+Group.prototype[Symbol.iterator] = function () {
+  return new GroupIterator(this);
 };
+
+for (let value of Group.from(["it", "is", "working"])) {
+  console.log(value);
+}
