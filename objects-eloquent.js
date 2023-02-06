@@ -180,4 +180,65 @@ class Vec {
     }
 }
 
-console.log(new Vec(1,2).plus(new Vec(2,3)));
+//Groups:  JS environment hs <Set> data structure; holds collection of vals.
+//unlike Map, set doesn't assosiate other values with those.  A value can be part of a set once; adding again has no effect.
+
+//Write a class called Group.  Like Set it has <add>, <delete>, & <has> methods.
+
+//give class static from method that takes iterable as arg and creates a group by iterating over it
+
+//Iterable Groups: Make the Group class iterable.  Since array representing the group don't just return iterater from Symbol.iterator
+
+class Group {
+    constructor(){
+this.instance = []
+    }
+
+    add(value){
+        if(this.instance.indexOf(value)< 0){this.instance.push(value)}
+//add the value to the set if not in set
+    }
+delete(value){
+    if(this.instance.indexOf(value)>= 0){
+        let target = this.instance.indexOf(value);
+    let before = this.instance.slice(0,target);
+    let after = this.instance.slice(target+1);
+    this.instance = [...before, ...after];
+    //filter would be more concise here
+    return this.instance;
+    }
+    //remove the value if it was in set
+}
+has(value){
+    if(this.instance.includes(value)){return true}
+    else return false;
+    //return boolean; true if in set
+}
+
+static from(object){
+    // create a new group, iterate through object calling add each iteration
+    let aGroup = new Group;
+    for(const prop in object){
+        aGroup.add(object[prop]);
+    }
+    return aGroup;
+}
+}
+
+class GroupIterator {
+    constructor(group){
+        this.item = 0
+this.group = group
+    }
+    next(){
+
+        if(this.item == (this.group.instance.length()-1))return {done: true}
+        let value = {value: this.group.instance[this.item]}
+        this.item++;
+        return{value, done: false};
+    }
+}
+
+Group.prototype[Symbol.iterator] = function(){
+    return new GroupIterator(this);
+};
