@@ -94,7 +94,66 @@ for(let char of horseShoe){
 // input: array with some elements as arrays
 // output: array, with all elements
 
-const arrayFromConcat =(array)=>{let newArr = [];
-    for(let item of array){console.log(newArr.concat(item))};
+//come back to this.  I think the intent is similar to linked list; set up a loop checking each element, within each element build up the array
+
+//Your Own Loop: write a function <loop> that provides something like a for loop:
+// take value, test, update, and body.  Each iteration runs test on value, stops if false.  calls body, finally calls update, then restarts
+
+const myLoop = (value, testFn, bodyFn, updateFn) =>{
+    let current = value;
+   while(testFn(current)){
+           bodyFn(current);
+        current = updateFn(current);
+        
+    }
 }
-arrayFromConcat([1,3,4]);
+
+//Everything: arrays have an 'every' method analogous to 'some' method.
+//Implement every as a function that takes an array and a test as parameters.  Write two, one using a loop, one using some.
+
+const everyLoop = (array, test)=> {
+    //recall: <for...in> for string props of objects
+    let result = true;
+    for(let element of array){
+        if (!test(element)){result = false; return result;}
+    }
+    return result}
+
+const everySome = (array, test) =>{
+    let result = true;
+//could create single item arrays and test via some
+//some returns true when it finds one truthy. could go recursive: call some, if true take off first element, call some on remaining
+
+}
+
+// Dominant Writing Direction: Write a function that computes dominant writing direction in string of text
+//consider characterScript & countBy from earlier in the chapter
+
+const dominantDirection=(textStr)=>{
+
+}
+
+function characterScript(code) {
+    for (let script of SCRIPTS) {
+      if (script.ranges.some(([from, to]) => {
+        return code >= from && code < to;
+      })) {
+        return script;
+      }
+    }
+    return null;
+  }
+
+  function countBy(items, groupName) {
+    let counts = [];
+    for (let item of items) {
+      let name = groupName(item);
+      let known = counts.findIndex(c => c.name == name);
+      if (known == -1) {
+        counts.push({name, count: 1});
+      } else {
+        counts[known].count++;
+      }
+    }
+    return counts;
+  }
